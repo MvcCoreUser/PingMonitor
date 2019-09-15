@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ResultViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Url сервиса</th>
+                <th>Доступность</th>
+                <th>Время обработки запроса (мс)</th>
+                <th>Кол-во сбоев за посл. час</th>
+                <th>Кол-во сбоев за посл. сутки</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.ApiServiceViewModel.Id" title="Подробная статистика">
+                          @item.ApiServiceViewModel.Url
+                        </a>
+                    </td>
+                    <td class="text-white @(item.Accessible?"bg-success":"bg-warning")">@(item.Accessible?"Да":"Нет")</td>
+                    <td class=" text-white @(item.LargeVariance?"bg-danger":"bg-tranparent")">@item.ExecTimeInSeconds</td>
+                    <td>@item.FailCountPerLastHour</td>
+                    <td>@item.FailCountPerLastDay</td>
+                </tr>
+                
+            }
+        </tbody>
+    </table>
+</div>

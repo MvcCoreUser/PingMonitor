@@ -1,0 +1,74 @@
+﻿@model ResultViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Подробная статистика</h1>
+
+<div class="container">
+    <div class="row border-bottom">
+        <div class="col text-center bg-info font-weight-bold text-white">
+            Url сервиса
+        </div>
+        <div class="col text-left">
+            @Model.ApiServiceViewModel.Url
+        </div>
+    </div>
+    <div class="row border-bottom">
+        <div class="col text-center bg-info font-weight-bold text-white">
+            Доступность
+        </div>
+        <div class="col text-left @(Model.Accessible ? "bg-success" : "bg-warning")">
+            @(Model.Accessible ? "Да" : "Нет")
+        </div>
+    </div>
+    @if (Model.ApiServiceViewModel.CheckExecTime)
+    {
+        <div class="row border-bottom">
+            <div class="col text-center bg-info font-weight-bold text-white">
+                Время обработки запроса (мс)
+            </div>
+            <div class="col text-left @(Model.LargeVariance?"bg-danger":"bg-transparent")">
+                @Model.ExecTimeInSeconds
+            </div>
+        </div>
+    }
+    <div class="row border-bottom">
+        <div class="col text-center bg-info font-weight-bold text-white">
+            Кол-во сбоев за посл. час
+        </div>
+        <div class="col text-left">
+            @Model.FailCountPerLastHour
+        </div>
+    </div>
+    <div class="row border-bottom">
+        <div class="col text-center bg-info font-weight-bold text-white">
+            Кол-во сбоев за посл. сутки
+        </div>
+        <div class="col text-left">
+            @Model.FailCountPerLastDay
+        </div>
+    </div>
+    @if (Model.MaxExecTimePerLastHour.HasValue)
+    {
+        <div class="row bg-warning text-white border-bottom">
+            <div class="col text-center font-weight-bold">
+                Максимальное время выполнения запроса за последний час
+            </div>
+            <div class="col text-left">
+                @Model.MaxExecTimePerLastHour
+            </div>
+        </div>
+    }
+    @if (Model.MaxExecTimePerLastDay.HasValue)
+    {
+        <div class="row bg-warning text-white border-bottom">
+            <div class="col text-center font-weight-bold">
+                Максимальное время выполнения запроса за последние сутки
+            </div>
+            <div class="col text-left">
+                @Model.MaxExecTimePerLastDay
+            </div>
+        </div>
+    }
+</div>
